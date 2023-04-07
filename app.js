@@ -4,7 +4,7 @@ const { parse } = require('querystring');
 // http모듈을 사용하여 HTTP 서버를 만드는 코드이다.
 http.createServer((req, res) => {
   if (req.method === 'GET' && req.url === '/') {
-    res.writeHead(200, {'Content-Type': 'text/html'});
+    res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
     res.write(`
       <html>
         <head>
@@ -19,9 +19,24 @@ http.createServer((req, res) => {
               font-size: 10rem;
               font-family: 'Helvetica Neue', sans-serif;
             }
+            .clock {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              background-color: #f0f0f0;
+              border: 10px solid #333;
+              width: 750px;
+              height: 750px;
+              font-size: 9rem;
+              font-family: 'Helvetica Neue', sans-serif;
+              color: #333;
+            }
           </style>
         </head>
         <body>
+        <div> 좋은하루 보내세요 </div>
+        <br>
+        <div class="clock">
           <script>
             function updateTime() {
               const date = new Date();
@@ -32,10 +47,11 @@ http.createServer((req, res) => {
               const hours = date.getHours().toString().padStart(2, '0');
               const minutes = date.getMinutes().toString().padStart(2, '0');
               const seconds = date.getSeconds().toString().padStart(2, '0');
-              document.body.innerText = \`\${year}:\${month}:\${day}:\${hours}:\${minutes}:\${seconds}\`;
+              document.querySelector('.clock').innerText = \`\${year}.\${month}.\${day}\n\${hours}:\${minutes}:\${seconds}\`;
             }
             setInterval(updateTime, 1000);
           </script>
+          </div>
         </body>
       </html>
     `);
